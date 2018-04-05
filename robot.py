@@ -6,21 +6,6 @@ from wpilib.drive import DifferentialDrive
 
 class MyRobot(wpilib.IterativeRobot):
     
-    if wpilib.RobotBase.isSimulation():
-        # These PID parameters are used in simulation
-        kP = 0.06
-        kI = 0.00
-        kD = 0.00
-        kF = 0.00
-    else:
-        # These PID parameters are used on a real robot
-        kP = 0.03
-        kI = 0.00
-        kD = 0.00
-        kF = 0.00
-    
-    kToleranceDegrees = 2.0
-    
     def robotInit(self):
         
         # initialize the timer
