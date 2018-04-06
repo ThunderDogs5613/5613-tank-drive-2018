@@ -8,6 +8,8 @@ class MyRobot(wpilib.IterativeRobot):
     
     def robotInit(self):
         
+        wpilib.CameraServer.launch()
+        
         # initialize the timer
         self.timer = wpilib.Timer()
         
@@ -17,10 +19,10 @@ class MyRobot(wpilib.IterativeRobot):
         
         self.ShooterSpd = 1  # Default shooter speed
         self.ShooterEnable = 0  # Set the shooter to Disabled by default
-        self.Direction = -1  # Set direction to -1 (which is forward sadly)
+        self.Direction = 1  # Set direction to -1 (which is forward sadly)
         self.SpeedAut = 0  # This is the Drive Speed for autonomous
         self.ReachedSwitch = 0  # This is the value used to check if we
-        # have reached the switch yet
+                                # have reached the switch yet
         
         # Initialize the encoders (order is unintuitive)
         self.EncoderB = wpilib.encoder.Encoder(0, 1, True)
@@ -61,7 +63,7 @@ class MyRobot(wpilib.IterativeRobot):
             ((self.stick1.getY() * self.DriveSpd) * self.Direction),
             (self.stick1.getX()))
         self.shoot.set(
-            self.ShooterSpd * (self.stick1.getThrottle() + 1))
+            self.ShooterSpd)
         
         # Print the throttle value from the joystick
         # (for driver's reference and debugging)
@@ -70,22 +72,20 @@ class MyRobot(wpilib.IterativeRobot):
         # Buttons to control the shooter.
         # -1 is forward 1 is backwards (unfortunately)
         if self.stick1.getRawButton(1):
-            self.ShooterSpd = -1
-        elif self.stick1.getRawButton(5):
-            self.ShooterSpd = -1
-        elif self.stick1.getRawButton(3):
-            self.ShooterSpd = 1
+            self.ShooterSpd = 0.8
+        elif self.stick1.getRawButton(2):
+            self.ShooterSpd = -0.5
         else:
             self.ShooterSpd = 0
         
         # Button to change direction
         if self.stick1.getRawButton(12):
-            self.Direction = 1
-        else:
             self.Direction = -1
+        else:
+            self.Direction = 1
         
         # Button to activate slow mode
-        if self.stick1.getRawButton(2):
+        if self.stick1.getRawButton(7):
             self.DriveSpd = 0.6
         else:
             self.DriveSpd = 1
@@ -138,6 +138,8 @@ class MyRobot(wpilib.IterativeRobot):
             self.ShooterEnable = 0
         else:
             self.ShooterEnable = 0
+            
+        
 
 
 if __name__ == '__main__':
